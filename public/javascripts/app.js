@@ -24,7 +24,6 @@ $(document).ready(function () {
 function showUser() {
     if (localStorage.getItem('userProfile')) {
         var user = JSON.parse(localStorage.getItem('userProfile'));
-        console.log(user);
         $loginForm.remove();
         $userDiv.text('You are currently logged in as ' + user.username);
     }
@@ -51,14 +50,12 @@ function bindEvents() {
 
             // on a success, put the secret into content area
             $content.text(data);
-            console.log("success");
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR, textStatus, errorThrown);
 
             // on a failure, put that in the content area
             $content.text(jqXHR.responseText);
-            console.log("error");
+
         }).always(function () {
             console.log("complete");
         });
@@ -77,23 +74,23 @@ function bindEvents() {
             method: 'post',
             data: data
         }).done(function (data, textStatus, jqXHR) {
-            console.log("success", data);
+
             // Save the JWT token
             localStorage.setItem('userToken', data.token);
             // Set the user
             localStorage.setItem('userProfile', JSON.stringify(data.user));
+
             showUser();
             setupAjax();
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR, textStatus, errorThrown);
             $error.text(jqXHR.responseText);
         }).always(function () {
             console.log("complete");
         });
     });
 
-    // set up login
+    // set up register
     $registerForm.on('submit', function (e) {
         // stop the form from submitting, since we're using ajax
         e.preventDefault();
@@ -106,14 +103,15 @@ function bindEvents() {
             method: 'post',
             data: data
         }).done(function (data, textStatus, jqXHR) {
-            console.log(data);
-            console.log("success");
 
             //redirect back home, so that they can log in
             window.location.replace('/');
+
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR, textStatus, errorThrown);
+
+            // show the user the error
             $error.text(jqXHR.responseText);
+
         }).always(function () {
             console.log("complete");
         });
