@@ -1,0 +1,29 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+label.form-control {
+    display: block;
+    text-align: right;
+    clear: both;
+    float:left;
+}
+
+.form-control{
+    width: 130px;
+    margin: 10px;
+}
+
+.content{
+    margin-left: 20px;
+    color: blue;
+    display: inline;
+}
+.error{
+    color: red;
+}
