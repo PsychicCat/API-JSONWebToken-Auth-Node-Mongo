@@ -1,7 +1,7 @@
 # API-JSONWebToken-Auth-Node-Mongo
 A simple Node.js API. Users are created and stored in a local database using Mongo, and they are authenticated using JSON Web Tokens.
 
-Inside the `package.json` file we have the following two dependancies for processing json web tokens:
+Inside the `package.json` file we have the following two dependencies for processing json web tokens:
 
 ``` javascript
   "express-jwt": "^3.0.1",
@@ -22,7 +22,7 @@ Inside of the `app.js` (server side) the following two lines protect our api rou
   app.use('/api/*', expressJwt({secret: 'supersecret'}));
 ```
 
-You could change these routes to be what ever you need.
+You could change these routes to be whatever you need.
 
 Also inside of `app.js`, the following error handler deals with unauthorized errors when express-jwt doesn't find a token. Without this middleware, you'll just get 500 errors back.
 
@@ -122,7 +122,7 @@ Finally, we actually create the user tokens using jsonwebtoken:
 jsonwebtoken = require('jsonwebtoken')
 ```
 
-*Note that the `UserSchema.statics.Create`function is ommitted, as it doesn't pertain to this walkthrough. Feel free to browse the source to see the static functions for creating users.*
+*Note that the `UserSchema.statics.Create`function is omitted, as it doesn't pertain to this walkthrough. Feel free to browse the source to see the static functions for creating users.*
 
 Finally, inside of the `User.statics.getAuthenticated` function we have the magic, which returns the tokenized user as well as a user object for our Ajax to play with.
 
