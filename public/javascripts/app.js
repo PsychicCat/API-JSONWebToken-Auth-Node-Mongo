@@ -1,18 +1,20 @@
 var $loginForm;
 var $testDiv;
 var $registerForm;
-var $userDiv;
+var $user;
 var $error;
 var $content;
+var $logout;
 
 $(document).ready(function () {
 
     $loginForm = $('#login');
     $testDiv = $('#test');
     $registerForm = $('#register');
-    $userDiv = $('#user');
     $error = $('#error');
     $content = $('#content');
+    $logout = $('#logout');
+    $user = $('#user');
 
     setupAjax();
 
@@ -24,9 +26,23 @@ $(document).ready(function () {
 function showUser() {
     if (localStorage.getItem('userProfile')) {
         var user = JSON.parse(localStorage.getItem('userProfile'));
-        $loginForm.remove();
-        $userDiv.text('You are currently logged in as ' + user.username);
+        $loginForm.hide();
+        $user.text('You are currently logged in as ' + user.username);
+        $content.text('');
     }
+}
+
+function hideUser() {
+    if (localStorage.getItem('userToken')) {
+        localStorage.removeItem('userToken');
+    }
+
+    if (localStorage.getItem('userProfile')) {
+        localStorage.removeItem('userProfile');
+    }
+    $loginForm.show();
+    $user.text('');
+    $content.text('');
 }
 
 function setupAjax() {
@@ -80,6 +96,9 @@ function bindEvents() {
             // Set the user
             localStorage.setItem('userProfile', JSON.stringify(data.user));
 
+            // clear form
+            $loginForm[0].reset();
+
             showUser();
             setupAjax();
 
@@ -115,5 +134,9 @@ function bindEvents() {
         }).always(function () {
             console.log("complete");
         });
+    });
+
+    $logout.on('click', function () {
+        hideUser();
     })
 }

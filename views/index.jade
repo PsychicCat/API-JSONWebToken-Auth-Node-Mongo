@@ -3,24 +3,31 @@ extends layout
 block content
     h1 Test API
     div
-        button#test.btn.btn-primary(type="button") Test
         div#content.content
-        p Click the "Test" button to send an Ajax request to /api/test. If you are authenticated, the data will be displayed below:
+        .jumbotron
+            .container
+                p Click the "Test" button to send an Ajax request to /api/test. If you are authenticated, the data will be displayed
+                .btn-group
+                    button#test.btn.btn-primary(type="button") Test
+                    button#logout.btn.btn-primary(type="button") Logout
 
-    div#user
-        form#login(role='form' method='post')
+    .well
+        p#user
+        form.form-horizontal#login(role='form' method='post')
             legend
                 h1 Login
                 .form-group
-                    label.form-control(for="username") Username:
-                    input.form-control(type='text' id="password" name="username" placeholder='Enter Username')
+                    label.control-label.col-sm-2(for="username") Username:
+                    .col-sm-10
+                        input.form-control(type='text' id="username" name="username" placeholder='Enter Username')
                 .form-group
-                    label.form-control(for="password") Password:
-                    input.form-control(type='password' id="password" name="password" placeholder='Password')
+                    label.control-label.col-sm-2(for="password") Password:
+                    .col-sm-10
+                        input.form-control(type='password' id="password" name="password" placeholder='Password')
+                .form-group
+                    button.btn.btn-primary(type='submit') Submit
 
-                button.btn.btn-default(type='submit') Submit
-
-                a(href='/register')
-                  button.btn.btn-primary(type="button") Register
+                    a(href='/register')
+                      button.btn.btn-default(type="button") Register
 
                 p#error.error

@@ -1,26 +1,33 @@
 extends layout
 block content
-    form(role='form' id='register' action="/register" method="post")
+    form.form-horizontal(role='form' id='register' action="/register" method="post")
         legend
             h1 Register
             .form-group
-                label.form-control(for="firstName") First Name:
-                input.form-control(type='text' name="firstName" id="firstName" placeholder='Enter First Name' require="true")
+                label.control-label.col-sm-2(for="firstName") First Name:
+                .col-sm-10
+                    input.form-control(type='text' name="firstName" id="firstName" placeholder='Enter First Name' require="true")
             .form-group
-                label.form-control(for="lastName") Last Name:
-                input.form-control(type='text' name="lastName" id="lastName" placeholder='Enter Last Name')
+                label.control-label.col-sm-2(for="lastName") Last Name:
+                .col-sm-10
+                    input.form-control(type='text' name="lastName" id="lastName" placeholder='Enter Last Name')
             .form-group
-                label.form-control(for="username") Username:
-                input.form-control(type='text' name="username" id="username" placeholder='Enter Username')
+                label.control-label.col-sm-2(for="username") Username:
+                .col-sm-10
+                    input.form-control(type='text' name="username" id="username" placeholder='Enter Username')
             .form-group
-                label.form-control(for="password") Password:
-                input.form-control(type='password' name="password" id="password" placeholder='Enter Password')
+                label.control-label.col-sm-2(for="password") Password:
+                .col-sm-10
+                    input.form-control(type='password' name="password" id="password" placeholder='Enter Password')
             .form-group
-                label.form-control(for="confirm") Confirm Password:
-                input.form-control(type='password' name="confirm" id="confirm" placeholder='Confirm Password')
-            button.btn.btn-default(type='submit') Submit
+                label.control-label.col-sm-2(for="confirm") Confirm Password:
+                .col-sm-10
+                    input.form-control(type='password' name="confirm" id="confirm" placeholder='Confirm Password')
 
-            a(href='/')
-                button.btn.btn-primary(type="button") Cancel
+            .form-group
+                button.btn.btn-primary(type='submit') Submit
+
+                a(href='/')
+                    button.btn.btn-default(type="button") Cancel
 
             p#error.error
