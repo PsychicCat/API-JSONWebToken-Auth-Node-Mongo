@@ -5,6 +5,7 @@ var $user;
 var $error;
 var $content;
 var $logout;
+var $networking;
 
 $(document).ready(function () {
 
@@ -15,19 +16,48 @@ $(document).ready(function () {
     $content = $('#content');
     $logout = $('#logout');
     $user = $('#user');
+    $networking = $('#networking');
+    $events = $('#events');
+    $ul = $('<ul>');
+
+    $networking.hide();
+
+    $networking.on('submit', function(e){
+        e.preventDefault();
+        var data = $(this).serializeArray();
+
+        $.ajax({
+            method: 'POST',
+            url: '/api/test',
+            data: data,
+        }).done(function (data, textStatus, jqXHR) {
+
+            getEvents();
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+
+            // on a failure, put that in the content area
+            $content.text(jqXHR.responseText);
+
+        }).always(function () {
+            console.log("complete");
+        });
+    });
 
     setupAjax();
 
     bindEvents();
 
     showUser();
+
 });
 
 function showUser() {
     if (localStorage.getItem('userProfile')) {
         var user = JSON.parse(localStorage.getItem('userProfile'));
         $loginForm.hide();
-        $user.text('You are currently logged in as ' + user.username);
+        $networking.show();
+        getEvents();
         $content.text('');
     }
 }
@@ -41,8 +71,42 @@ function hideUser() {
         localStorage.removeItem('userProfile');
     }
     $loginForm.show();
+    $networking.hide();
+    $events.empty();
     $user.text('');
     $content.text('');
+}
+
+function getEvents(){
+    $.ajax({
+        method: 'GET',
+        url:'/api/test/events'
+    }).done(function (data, textStatus, jqXHR) {
+        console.log(data);
+        var events = data[0].events;
+
+        events.forEach(function(elem){
+            var $ul = $('<ul>');
+            var $newLidate = $('<li>').text("Date: " + elem.date);
+            var $newLidescription = $('<li>').text("Description: " + elem.description);
+            var $newLilocation = $('<li>').text("Location: " + elem.location);
+            var $newLitime = $('<li>').text("Time: " + elem.time);
+            var $newLititle = $('<li>').text("Title: " + elem.title);
+
+            $ul.append($newLititle, $newLidate, $newLidescription, $newLilocation, $newLitime)
+            $('#events').append($ul);
+        });
+
+
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+
+        // on a failure, put that in the content area
+        $content.text(jqXHR.responseText);
+
+    }).always(function () {
+        console.log("complete");
+    });
 }
 
 function setupAjax() {

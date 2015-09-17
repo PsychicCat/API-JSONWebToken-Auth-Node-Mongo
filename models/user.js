@@ -13,7 +13,14 @@ var UserSchema = new mongoose.Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     username: {type: String, required: true, index: {unique: true}},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    events: [ {
+        title: String,
+        description: String,
+        location: String,
+        date: Date,
+        time: String
+    }]
 });
 
 /**
@@ -133,6 +140,19 @@ UserSchema.statics.Create = function (user, callback) {
         }
     });
 };
+
+UserSchema.statics.addNetworkingEvent = function (user, event, callback){
+    //find the current user
+    this.update({'username': user.username}, {$push: {events: event}}, function(err, event){
+        if (err){
+            console.log(err);
+            next(err);
+        }
+        else {callback(event);}
+    })
+};
+
+
 
 
 /**

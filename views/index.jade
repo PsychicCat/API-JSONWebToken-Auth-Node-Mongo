@@ -31,3 +31,25 @@ block content
                       button.btn.btn-default(type="button") Register
 
                 p#error.error
+    .well
+        form#networking.text-center(role='form' method='post' action="/api/test")
+            legend
+                .form-group
+                    label(for="title") Title:
+                    input(type="text" id="title" name="title")
+                .form-group
+                    label(for="description") Description:
+                    input(type="description" id="description" name="description")
+                .form-group
+                    label(for="location") Location:
+                    input(type="location" id="location" name="location")
+                .form-group
+                    label(for="date") Date:
+                    input(type="date" id="date" name="date")
+                .form-group
+                    label(for="time") Time:
+                    input(type="datetime" id="time" name="time")
+                    input.btn.btn-primary(type="submit" value="Submit")
+        #events
+
+
