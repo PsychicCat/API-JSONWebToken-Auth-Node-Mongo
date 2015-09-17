@@ -32,6 +32,7 @@ $(document).ready(function () {
             data: data,
         }).done(function (data, textStatus, jqXHR) {
 
+           console.log("hello");
             getEvents();
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -82,7 +83,6 @@ function getEvents(){
         method: 'GET',
         url:'/api/test/events'
     }).done(function (data, textStatus, jqXHR) {
-        console.log(data);
         var events = data[0].events;
 
         events.forEach(function(elem){
@@ -93,8 +93,9 @@ function getEvents(){
             var $newLitime = $('<li>').text("Time: " + elem.time);
             var $newLititle = $('<li>').text("Title: " + elem.title);
 
-            $ul.append($newLititle, $newLidate, $newLidescription, $newLilocation, $newLitime)
+            $ul.append($newLititle, $newLidate, $newLidescription, $newLilocation, $newLitime);
             $('#events').append($ul);
+
         });
 
 

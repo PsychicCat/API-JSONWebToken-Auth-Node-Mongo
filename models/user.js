@@ -143,12 +143,12 @@ UserSchema.statics.Create = function (user, callback) {
 
 UserSchema.statics.addNetworkingEvent = function (user, event, callback){
     //find the current user
-    this.update({'username': user.username}, {$push: {events: event}}, function(err, event){
+    this.update({'username': user.username}, {$push: {events: event}}, function(err){
         if (err){
             console.log(err);
             next(err);
         }
-        else {callback(event);}
+        callback(null, "Done");
     })
 };
 

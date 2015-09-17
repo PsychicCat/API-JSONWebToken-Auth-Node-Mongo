@@ -8,15 +8,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-
-    User.addNetworkingEvent({'username': user.username}, {$push: {events: event}}, function(err, doc){
+    User.addNetworkingEvent(req.user, req.body, function(err){
         if (err){
             console.log(err);
             next(err);
+        } else {
+            res.sendStatus(200);
         }
-        callback(doc);
     })
-
 });
 
 router.get('/events', function(req, res, next){
