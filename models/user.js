@@ -76,6 +76,7 @@ UserSchema.statics.getAuthenticated = function (user, callback) {
             return callback(new Error('Invalid username or password.', 401), null);
         }
         else {
+            var req = user;
             // test for a matching password
             doc.comparePassword(user.password, function (err, isMatch) {
                 if (err) {
@@ -86,11 +87,24 @@ UserSchema.statics.getAuthenticated = function (user, callback) {
                 // check if the password was a match
                 if (isMatch) {
 
+                    var user = {
+                        username: doc.username,
+                        id: doc.id,
+                        firstName: doc.firstName,
+                        lastName: doc.lastName
+                    };
+
                     // return the jwt
-                    var token = jsonwebtoken.sign(doc, 'supersecret', {
-                        expiresInMinutes: 1440 // expires in 24 hours
-                    });
-                    return callback(null, token, doc);
+                    if (req.remember == "on") {
+                        var token = jsonwebtoken.sign(user, 'supersecret', {
+                            expiresInMinutes: 10080 // expires in 7 days
+                        });
+                    } else {
+                        var token = jsonwebtoken.sign(user, 'supersecret', {
+                            expiresInMinutes: 1440 // expires in 24 hours
+                        });
+                    }
+                    return callback(null, token, user);
                 }
                 else {
                     return callback(new Error('Invalid username or password.'), null);

@@ -20,7 +20,7 @@ router.post('/', function (req, res, next) {
             }
             else if (token) {
                 // We are sending the profile inside the token
-                res.json({token: token, user: user});
+                res.json({token: token, user: user, remember: req.body.remember});
             } else {
                 res.status(401).send('Invalid Username or Password');
             }

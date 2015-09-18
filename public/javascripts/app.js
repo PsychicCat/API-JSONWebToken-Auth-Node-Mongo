@@ -61,14 +61,27 @@ function showUser() {
         getEvents();
         $content.text('');
     }
+    if (sessionStorage.getItem('userProfile')) {
+        var user = JSON.parse(localStorage.getItem('userProfile'));
+        $loginForm.hide();
+        $networking.show();
+        getEvents();
+        $content.text('');
+    }
+
 }
 
 function hideUser() {
     if (localStorage.getItem('userToken')) {
         localStorage.removeItem('userToken');
     }
-
+    if(sessionStorage.getItem('userToken')) {
+        sessionStorage.removeItem('userToken');
+    }
     if (localStorage.getItem('userProfile')) {
+        localStorage.removeItem('userProfile');
+    }
+    if (session.getItem('userProfile')) {
         localStorage.removeItem('userProfile');
     }
     $loginForm.show();
@@ -86,7 +99,7 @@ function getEvents(){
         var events = data[0].events;
 
         events.forEach(function(elem){
-            var $ul = $('<ul>');
+            var $ul = $('<ul>').attr({class: 'col-md-3 well'});
             var $newLidate = $('<li>').text("Date: " + elem.date);
             var $newLidescription = $('<li>').text("Description: " + elem.description);
             var $newLilocation = $('<li>').text("Location: " + elem.location);
@@ -150,16 +163,27 @@ function bindEvents() {
         // get the data from the inputs
         var data = $(this).serializeArray();
 
+
         // go authenticate
         $.ajax('/authenticate', {
             method: 'post',
             data: data
         }).done(function (data, textStatus, jqXHR) {
 
-            // Save the JWT token
-            localStorage.setItem('userToken', data.token);
-            // Set the user
-            localStorage.setItem('userProfile', JSON.stringify(data.user));
+            if(data.remember == "on"){
+                // Save the JWT token
+                localStorage.setItem('userToken', data.token);
+                // Set the user
+                localStorage.setItem('userProfile', JSON.stringify(data.user));
+
+            } else {
+                console.log("don't remember", data);
+                // Save the JWT token
+                sessionStorage.setItem('userToken', data.token);
+                // Set the user
+                sessionStorage.setItem('userProfile', JSON.stringify(data.user));
+            }
+
 
             // clear form
             $loginForm[0].reset();
