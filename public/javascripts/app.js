@@ -61,8 +61,8 @@ function showUser() {
         getEvents();
         $content.text('');
     }
-    if (sessionStorage.getItem('userProfile')) {
-        var user = JSON.parse(localStorage.getItem('userProfile'));
+    else if (sessionStorage.getItem('userProfile')) {
+        var user = JSON.parse(sessionStorage.getItem('userProfile'));
         $loginForm.hide();
         $networking.show();
         getEvents();
@@ -81,8 +81,8 @@ function hideUser() {
     if (localStorage.getItem('userProfile')) {
         localStorage.removeItem('userProfile');
     }
-    if (session.getItem('userProfile')) {
-        localStorage.removeItem('userProfile');
+    if (sessionStorage.getItem('userProfile')) {
+        sessionStorage.removeItem('userProfile');
     }
     $loginForm.show();
     $networking.hide();
@@ -129,6 +129,10 @@ function setupAjax() {
             if (localStorage.getItem('userToken')) {
                 xhr.setRequestHeader('Authorization',
                     'Bearer ' + localStorage.getItem('userToken'));
+            }
+            if (sessionStorage.getItem('userToken')) {
+                xhr.setRequestHeader('Authorization',
+                    'Bearer ' + sessionStorage.getItem('userToken'));
             }
         }
     });
